@@ -19,12 +19,15 @@ select {
   display: grid;
   /* grid-template-columns: 200px 200px 200px; */
   grid-template-columns: 1fr 1fr 1fr;
+  /* grid-auto-columns: 220 px; */
   background-color: aqua;
 }
 
 .book {
+  padding: 10px;
   margin: 20px;
   height: 200px;
+  width: 200px;
   color: blue;
   background-color: burlywood;
 }
