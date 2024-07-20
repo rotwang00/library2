@@ -19,7 +19,7 @@ function addBookToLibrary(title, author, pages, hasRead) {
 }
 
 function displayBooks() {
-  // Remove all children
+  // Clear display by removing all children
   let child = display.lastElementChild;
   while (child) {
     display.removeChild(child);
@@ -29,7 +29,32 @@ function displayBooks() {
   // Add books
   for (let book of library) {
     let newBook = document.createElement('div');
-    newBook.textContent = `${book.title} by ${book.author}\n`;
+
+    let newTitle = document.createElement('p');
+    newTitle.textContent = book.title;
+    newTitle.classList.add('title');
+    newBook.appendChild(newTitle);
+
+    let newAuthor = document.createElement('p');
+    newAuthor.textContent = book.author;
+    newAuthor.classList.add('author');
+    newBook.appendChild(newAuthor);
+
+    let newPages = document.createElement('p');
+    newPages.textContent = book.pages;
+    newPages.classList.add('pages');
+    newBook.appendChild(newPages);
+
+    let newRead = document.createElement('p');
+    if (book.hasRead == true) {
+      newRead.textContent = "I've read it";
+    } else {
+      newRead.textContent = 'Not read yet';
+    }
+    newRead.classList.add('read');
+    newBook.appendChild(newRead);
+
+    // newBook.textContent = `${book.title} by ${book.author}\n`;
     newBook.classList.add('book');
     display.appendChild(newBook);
   }
