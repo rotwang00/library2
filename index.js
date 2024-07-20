@@ -1,8 +1,14 @@
 'use strict';
 
 const library = [];
+let bookID = 1;
 
 const display = document.getElementById('books-display');
+
+// display.addEventListener('click', e => {
+//   console.log(e.target.classList.contains('readToggleButton'));
+//   console.dir(e);
+// });
 
 function createBook(title, author, pages, hasRead) {
   return {
@@ -10,12 +16,14 @@ function createBook(title, author, pages, hasRead) {
     author,
     pages,
     hasRead,
+    bookID,
   };
 }
 
 function addBookToLibrary(title, author, pages, hasRead) {
   let book = createBook(title, author, pages, hasRead);
   library.push(book);
+  bookID++;
 }
 
 function displayBooks() {
@@ -54,7 +62,26 @@ function displayBooks() {
     newRead.classList.add('read');
     newBook.appendChild(newRead);
 
-    // newBook.textContent = `${book.title} by ${book.author}\n`;
+    let newReadButton = document.createElement('button');
+    newReadButton.textContent = 'Toggle read';
+    newReadButton.classList.add('readToggleButton');
+    newReadButton.addEventListener('click', () => {
+      book.hasRead = !book.hasRead;
+      displayBooks();
+    });
+    newBook.appendChild(newReadButton);
+
+    let newDeleteButton = document.createElement('button');
+    newDeleteButton.textContent = 'Delete';
+    newDeleteButton.classList.add('deleteButton');
+    newDeleteButton.addEventListener('click', () => {
+      console.log(`Delete book ${book.bookID}`);
+      let i = library.indexOf(book);
+      library.splice(i, 1);
+      displayBooks();
+    });
+    newBook.appendChild(newDeleteButton);
+
     newBook.classList.add('book');
     display.appendChild(newBook);
   }
