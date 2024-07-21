@@ -4,11 +4,11 @@ const library = [];
 let bookID = 1;
 
 const display = document.getElementById('books-display');
-
-// display.addEventListener('click', e => {
-//   console.log(e.target.classList.contains('readToggleButton'));
-//   console.dir(e);
-// });
+const addBookButton = document.getElementById('addBook');
+const sortByTitleButton = document.getElementById('sortByTitle');
+const sortByAuthorButton = document.getElementById('sortByAuthor');
+const sortByLengthButton = document.getElementById('sortByLength');
+const addBookModal = document.querySelector('dialog');
 
 function createBook(title, author, pages, hasRead) {
   return {
@@ -24,6 +24,7 @@ function addBookToLibrary(title, author, pages, hasRead) {
   let book = createBook(title, author, pages, hasRead);
   library.push(book);
   bookID++;
+  displayBooks();
 }
 
 function displayBooks() {
@@ -72,13 +73,14 @@ function displayBooks() {
     newBook.appendChild(newReadButton);
 
     let newDeleteButton = document.createElement('button');
-    newDeleteButton.textContent = 'Delete';
+    newDeleteButton.textContent = 'Remove';
     newDeleteButton.classList.add('deleteButton');
     newDeleteButton.addEventListener('click', () => {
-      console.log(`Delete book ${book.bookID}`);
-      let i = library.indexOf(book);
-      library.splice(i, 1);
-      displayBooks();
+      if (confirm(`Are you sure you want to remove ${book.title}?`)) {
+        let i = library.indexOf(book);
+        library.splice(i, 1);
+        displayBooks();
+      }
     });
     newBook.appendChild(newDeleteButton);
 
@@ -86,6 +88,25 @@ function displayBooks() {
     display.appendChild(newBook);
   }
 }
+
+addBookButton.addEventListener('click', () => {
+  addBookModal.showModal();
+});
+
+sortByTitleButton.addEventListener('click', () => {
+  library.sort((a, b) => a.title.localeCompare(b.title));
+  displayBooks();
+});
+
+sortByAuthorButton.addEventListener('click', () => {
+  library.sort((a, b) => a.author.localeCompare(b.author));
+  displayBooks();
+});
+
+sortByLengthButton.addEventListener('click', () => {
+  library.sort((a, b) => a.pages - b.pages);
+  displayBooks();
+});
 
 addBookToLibrary('Dune', 'Herbert', 600, true);
 addBookToLibrary('Cryptonomicon', 'Stephenson', 700, true);
